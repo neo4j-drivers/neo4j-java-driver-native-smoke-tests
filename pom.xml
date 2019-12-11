@@ -31,9 +31,9 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>com.oracle.substratevm</groupId>
+				<groupId>org.graalvm.nativeimage</groupId>
 				<artifactId>native-image-maven-plugin</artifactId>
-				<version>19.2.0.1</version>
+				<version>19.3.0</version>
 				<executions>
 					<execution>
 						<goals>
