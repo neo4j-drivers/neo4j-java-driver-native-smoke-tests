@@ -44,6 +44,7 @@
 				</executions>
 				<configuration>
 					<mainClass>org.neo4j.examples.drivernative.DriverNativeApplication</mainClass>
+					<buildArgs>-H:+PrintClassInitialization -H:Optimize=0</buildArgs>
 				</configuration>
 			</plugin>
 		</plugins>
