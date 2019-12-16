@@ -10,8 +10,6 @@
 	<description>Project compiling neo4j driver nativly</description>
 
 	<properties>
-		<start-class>org.neo4j.examples.drivernative.DriverNativeApplication</start-class>
-
 		<java.version>1.8</java.version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
