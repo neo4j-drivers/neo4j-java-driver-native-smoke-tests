@@ -31,7 +31,7 @@
 			<plugin>
 				<groupId>org.graalvm.nativeimage</groupId>
 				<artifactId>native-image-maven-plugin</artifactId>
-				<version>19.3.0</version>
+				<version>19.3.0.2</version>
 				<executions>
 					<execution>
 						<goals>
@@ -42,7 +42,6 @@
 				</executions>
 				<configuration>
 					<mainClass>org.neo4j.examples.drivernative.DriverNativeApplication</mainClass>
-					<buildArgs>-H:+PrintClassInitialization -H:Optimize=0</buildArgs>
 				</configuration>
 			</plugin>
 		</plugins>
