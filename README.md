@@ -40,7 +40,7 @@ gu list
 Run against the above database
 
 ```
-./target/org.neo4j.examples.drivernative.drivernativeapplication
+./target/printmovies
 ```
 
 No movies will be printed as long as you didn't install the movie graph, but a query will have been made.
@@ -48,6 +48,6 @@ No movies will be printed as long as you didn't install the movie graph, but a q
 Run against a different database:
 
 ```
-./target/org.neo4j.examples.drivernative.drivernativeapplication <URL> <USERNAME> <PASSWORD> <LOGLEVEL> 
+./target/printmovies <URL> <USERNAME> <PASSWORD> <LOGLEVEL> 
 ```
 

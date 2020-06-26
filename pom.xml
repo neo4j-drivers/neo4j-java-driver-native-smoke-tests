@@ -41,6 +41,7 @@
 					</execution>
 				</executions>
 				<configuration>
+ 					<imageName>printmovies</imageName>
 					<mainClass>org.neo4j.examples.drivernative.DriverNativeApplication</mainClass>
 					<buildArgs>--no-fallback -H:+ReportExceptionStackTraces -H:EnableURLProtocols=http,https --enable-all-security-services -H:+JNI</buildArgs>
 				</configuration>
