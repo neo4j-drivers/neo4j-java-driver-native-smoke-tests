@@ -15,13 +15,15 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
+
+		<neo4j-java-driver.version>4.0.1</neo4j-java-driver.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.neo4j.driver</groupId>
 			<artifactId>neo4j-java-driver</artifactId>
-			<version>4.0.1</version>
+			<version>${neo4j-java-driver.version}</version>
 		</dependency>
 
 	</dependencies>
