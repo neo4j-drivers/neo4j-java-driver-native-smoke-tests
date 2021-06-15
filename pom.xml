@@ -33,7 +33,7 @@
 			<plugin>
 				<groupId>org.graalvm.nativeimage</groupId>
 				<artifactId>native-image-maven-plugin</artifactId>
-				<version>20.1.0</version>
+				<version>21.1.0</version>
 				<executions>
 					<execution>
 						<goals>
@@ -45,7 +45,13 @@
 				<configuration>
  					<imageName>printmovies</imageName>
 					<mainClass>org.neo4j.examples.drivernative.DriverNativeApplication</mainClass>
-					<buildArgs>--no-fallback -H:+ReportExceptionStackTraces -H:EnableURLProtocols=http,https --enable-all-security-services -H:+JNI</buildArgs>
+					<buildArgs>
+						<buildArg>--no-fallback</buildArg>
+						<buildArg>-H:+ReportExceptionStackTraces</buildArg>
+						<buildArg>-H:EnableURLProtocols=http,https</buildArg>
+						<buildArg>--enable-all-security-services</buildArg>
+						<buildArg>-H:+JNI</buildArg>
+					</buildArgs>
 				</configuration>
 			</plugin>
 		</plugins>
