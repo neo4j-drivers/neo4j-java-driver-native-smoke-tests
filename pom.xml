@@ -16,7 +16,7 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
-		<neo4j-java-driver.version>4.0.1</neo4j-java-driver.version>
+		<neo4j-java-driver.version>4.4.1</neo4j-java-driver.version>
 	</properties>
 
 	<dependencies>
