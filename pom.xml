@@ -16,7 +16,7 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
-		<neo4j-java-driver.version>4.4.1</neo4j-java-driver.version>
+		<neo4j-java-driver.version>4.4-SNAPSHOT</neo4j-java-driver.version>
 	</properties>
 
 	<dependencies>
@@ -25,11 +25,40 @@
 			<artifactId>neo4j-java-driver</artifactId>
 			<version>${neo4j-java-driver.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>info.picocli</groupId>
+			<artifactId>picocli</artifactId>
+			<version>4.6.3</version>
+		</dependency>
+		<!--
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-core</artifactId>
+			<version>1.8.3</version>
+		</dependency>
+		-->
 	</dependencies>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<!-- annotationProcessorPaths requires maven-compiler-plugin version 3.5 or higher -->
+				<version>3.10.0</version>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>info.picocli</groupId>
+							<artifactId>picocli-codegen</artifactId>
+							<version>4.6.3</version>
+						</path>
+					</annotationProcessorPaths>
+					<compilerArgs>
+						<arg>-Aproject=${project.groupId}/${project.artifactId}</arg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.graalvm.nativeimage</groupId>
 				<artifactId>native-image-maven-plugin</artifactId>
@@ -43,7 +72,7 @@
 					</execution>
 				</executions>
 				<configuration>
- 					<imageName>printmovies</imageName>
+					<imageName>printmovies</imageName>
 					<mainClass>org.neo4j.examples.drivernative.DriverNativeApplication</mainClass>
 					<buildArgs>
 						<buildArg>--no-fallback</buildArg>
