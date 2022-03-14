@@ -37,7 +37,7 @@ gu list
 ./mvnw clean package 
 ```
 
-It will automatically run a test script against a Docker based instance. You can manually run the program against the above database with:
+It will automatically runs a test script against a Docker based instance. You can manually run the program against the above database with:
 
 ```
 ./target/printmovies
@@ -45,8 +45,17 @@ It will automatically run a test script against a Docker based instance. You can
 
 No movies will be printed as long as you didn't install the movie graph, but a query will have been made.
 
-Run against a different database:
+The script has as couple of options:
 
 ```
-./target/printmovies -a <URL> - u <USERNAME> -p <PASSWORD> 
+Usage: printmovies [-p[=<password>]]... [-a=<address>] [-l=<loggingLevel>]
+                   [-m=<metricsAdapter>] [-u=<user>]
+  -a, --address=<address>   The address this migration should connect to. The
+                              driver supports bolt, bolt+routing or neo4j as
+                              schemes.
+  -l=<loggingLevel>         Logging level
+  -m=<metricsAdapter>
+  -p, --password[=<password>]
+                            The password of the user connecting to the database.
+  -u, --username=<user>     The login of the user connecting to the database. 
 ```
