@@ -16,9 +16,10 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
-		<neo4j-java-driver.version>4.4-SNAPSHOT</neo4j-java-driver.version>
+		<neo4j-java-driver.version>4.4.4</neo4j-java-driver.version>
 
 		<imageName>printmovies</imageName>
+		<expectMetricsToBeOn>false</expectMetricsToBeOn>
 		<micrometer.version>1.8.3</micrometer.version>
 		<picocli.version>4.6.3</picocli.version>
 	</properties>
@@ -79,6 +80,26 @@
 					</buildArgs>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>execute_native_binary</id>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration >
+							<executable>${project.basedir}/bin/execute_native_binary.java</executable>
+							<arguments>
+								<argument>${project.build.directory}/${imageName}</argument>
+								<argument>${expectMetricsToBeOn}</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -92,6 +113,7 @@
 			</activation>
 			<properties>
 				<imageName>printmoviesMM</imageName>
+				<expectMetricsToBeOn>true</expectMetricsToBeOn>
 			</properties>
 			<dependencies>
 				<dependency>
