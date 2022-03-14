@@ -17,6 +17,10 @@
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
 		<neo4j-java-driver.version>4.4-SNAPSHOT</neo4j-java-driver.version>
+
+		<imageName>printmovies</imageName>
+		<micrometer.version>1.8.3</micrometer.version>
+		<picocli.version>4.6.3</picocli.version>
 	</properties>
 
 	<dependencies>
@@ -28,15 +32,8 @@
 		<dependency>
 			<groupId>info.picocli</groupId>
 			<artifactId>picocli</artifactId>
-			<version>4.6.3</version>
+			<version>${picocli.version}</version>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>io.micrometer</groupId>
-			<artifactId>micrometer-core</artifactId>
-			<version>1.8.3</version>
-		</dependency>
-		-->
 	</dependencies>
 
 	<build>
@@ -44,14 +41,13 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<!-- annotationProcessorPaths requires maven-compiler-plugin version 3.5 or higher -->
 				<version>3.10.0</version>
 				<configuration>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>info.picocli</groupId>
 							<artifactId>picocli-codegen</artifactId>
-							<version>4.6.3</version>
+							<version>${picocli.version}</version>
 						</path>
 					</annotationProcessorPaths>
 					<compilerArgs>
@@ -72,7 +68,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<imageName>printmovies</imageName>
+					<imageName>${imageName}</imageName>
 					<mainClass>org.neo4j.examples.drivernative.DriverNativeApplication</mainClass>
 					<buildArgs>
 						<buildArg>--no-fallback</buildArg>
@@ -85,4 +81,25 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>with-micrometer</id>
+			<activation>
+				<property>
+					<name>with-micrometer</name>
+				</property>
+			</activation>
+			<properties>
+				<imageName>printmoviesMM</imageName>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>io.micrometer</groupId>
+					<artifactId>micrometer-core</artifactId>
+					<version>${micrometer.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 </project>

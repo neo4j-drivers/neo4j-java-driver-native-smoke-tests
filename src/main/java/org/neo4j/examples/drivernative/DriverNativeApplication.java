@@ -58,7 +58,7 @@ public class DriverNativeApplication implements Callable<Integer> {
 	@Override
 	public Integer call() throws Exception {
 
-		System.out.println("Using metrics adapter " + metricsAdapter);
+		System.out.println("Trying to use metrics adapter " + metricsAdapter);
 
 		AuthToken auth = AuthTokens.basic(user, new String(password));
 		Config.ConfigBuilder builder = Config.builder();
