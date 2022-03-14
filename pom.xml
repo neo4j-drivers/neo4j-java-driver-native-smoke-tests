@@ -22,6 +22,7 @@
 		<expectMetricsToBeOn>false</expectMetricsToBeOn>
 		<micrometer.version>1.8.3</micrometer.version>
 		<picocli.version>4.6.3</picocli.version>
+		<jbang-maven-plugin.version>0.0.7</jbang-maven-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -81,21 +82,22 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
+				<groupId>dev.jbang</groupId>
+				<artifactId>jbang-maven-plugin</artifactId>
+				<version>${jbang-maven-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>execute_native_binary</id>
 						<goals>
-							<goal>exec</goal>
+							<goal>run</goal>
 						</goals>
 						<phase>package</phase>
 						<configuration >
-							<executable>${project.basedir}/bin/execute_native_binary.java</executable>
-							<arguments>
-								<argument>${project.build.directory}/${imageName}</argument>
-								<argument>${expectMetricsToBeOn}</argument>
-							</arguments>
+							<script>${project.basedir}/bin/execute_native_binary.java</script>
+							<args>
+								<arg>${project.build.directory}/${imageName}</arg>
+								<arg>${expectMetricsToBeOn}</arg>
+							</args>
 						</configuration>
 					</execution>
 				</executions>
