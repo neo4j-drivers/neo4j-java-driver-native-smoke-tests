@@ -10,19 +10,17 @@
 	<description>Project compiling neo4j driver nativly</description>
 
 	<properties>
+		<expectMetricsToBeOn>false</expectMetricsToBeOn>
+		<imageName>printmovies</imageName>
 		<java.version>1.8</java.version>
-
+		<jbang-maven-plugin.version>0.0.7</jbang-maven-plugin.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
-
-		<neo4j-java-driver.version>4.4.4</neo4j-java-driver.version>
-
-		<imageName>printmovies</imageName>
-		<expectMetricsToBeOn>false</expectMetricsToBeOn>
 		<micrometer.version>1.8.3</micrometer.version>
+		<native.maven.plugin.version>0.9.10</native.maven.plugin.version>
+		<neo4j-java-driver.version>4.4.4</neo4j-java-driver.version>
 		<picocli.version>4.6.3</picocli.version>
-		<jbang-maven-plugin.version>0.0.7</jbang-maven-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -58,13 +56,14 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.graalvm.nativeimage</groupId>
-				<artifactId>native-image-maven-plugin</artifactId>
-				<version>21.1.0</version>
+				<groupId>org.graalvm.buildtools</groupId>
+				<artifactId>native-maven-plugin</artifactId>
+				<version>${native.maven.plugin.version}</version>
+				<extensions>true</extensions>
 				<executions>
 					<execution>
 						<goals>
-							<goal>native-image</goal>
+							<goal>build</goal>
 						</goals>
 						<phase>package</phase>
 					</execution>

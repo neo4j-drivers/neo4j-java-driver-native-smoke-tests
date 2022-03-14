@@ -14,12 +14,12 @@ https://github.com/oracle/graal/releases
 All community downloads are available on
 https://github.com/graalvm/graalvm-ce-builds/releases
 
-Here we used version 20.1.0
+Here we used version 21.3.0
 
 Exports should be as follows:
 
 ```
-export GRAALVM_HOME=/Library/Java/JavaVirtualMachines/graalvm-ce-java11-20.1.0/Contents/Home
+export GRAALVM_HOME=/Library/Java/JavaVirtualMachines/graalvm-ce-java17-21.3.0/Contents/Home
 export PATH=$PATH:$GRAALVM_HOME/bin
 export JAVA_HOME=$GRAALVM_HOME
 ```
@@ -37,7 +37,7 @@ gu list
 ./mvnw clean package 
 ```
 
-Run against the above database
+It will automatically run a test script against a Docker based instance. You can manually run the program against the above database with:
 
 ```
 ./target/printmovies
@@ -48,6 +48,5 @@ No movies will be printed as long as you didn't install the movie graph, but a q
 Run against a different database:
 
 ```
-./target/printmovies <URL> <USERNAME> <PASSWORD> <LOGLEVEL> 
+./target/printmovies -a <URL> - u <USERNAME> -p <PASSWORD> 
 ```
-
