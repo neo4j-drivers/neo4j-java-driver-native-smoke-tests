@@ -1,3 +1,14 @@
+# neo4j-java-driver-native-smoke-tests
+
+This is a small project whose sole purpose is to build a native image from a simple application class depending on the 
+[neo4j-java-driver](https://github.com/neo4j/neo4j-java-driver) with the help of [GraalVM](https://www.graalvm.org) and execute that 
+binary against a Neo4j instance.
+
+It ensures basic connectivity and functionality in two steps: Once with optional dependencies present, once with them being absent.
+
+There's a small JBang Java script to orchestrate the tests.
+
+
 ## Build and run
 
 ### Start a Neo4j Docker instance
