@@ -30,12 +30,13 @@ public class execute_native_binary {
 
 	public static void main(String... a) throws Exception {
 
-		assertThat(a).hasSize(2);
+		assertThat(a).hasSize(3);
 
-		var executable = Paths.get(a[0]).toAbsolutePath().normalize().toString();
+		var dockerImageTag = a[0];
+		var executable = Paths.get(a[1]).toAbsolutePath().normalize().toString();
 
 		// Let Ryuk take care of it, so no try/catch with autoclose
-		var neo4j = new Neo4jContainer<>("neo4j:4.4").withReuse(true);
+		var neo4j = new Neo4jContainer<>(String.format("neo4j:%s", dockerImageTag)).withReuse(true);
 		neo4j.start();
 
 		try (var driver = GraphDatabase.driver(neo4j.getBoltUrl(), AuthTokens.basic("neo4j", neo4j.getAdminPassword()));
@@ -48,7 +49,7 @@ public class execute_native_binary {
 		}
 
 		List<String> expectedOutput;
-		if (Boolean.parseBoolean(a[1])) {
+		if (Boolean.parseBoolean(a[2])) {
 			expectedOutput = List.of(
 				"Trying to use metrics adapter MICROMETER",
 				"Highlander",
