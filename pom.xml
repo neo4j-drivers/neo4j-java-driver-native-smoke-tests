@@ -21,6 +21,7 @@
 		<native.maven.plugin.version>0.9.10</native.maven.plugin.version>
 		<neo4j-java-driver.version>4.4.5</neo4j-java-driver.version>
 		<picocli.version>4.6.3</picocli.version>
+		<docker.image.tag>4.4</docker.image.tag>
 	</properties>
 
 	<dependencies>
@@ -94,6 +95,7 @@
 						<configuration >
 							<script>${project.basedir}/bin/execute_native_binary.java</script>
 							<args>
+								<arg>${docker.image.tag}</arg>
 								<arg>${project.build.directory}/${imageName}</arg>
 								<arg>${expectMetricsToBeOn}</arg>
 							</args>
