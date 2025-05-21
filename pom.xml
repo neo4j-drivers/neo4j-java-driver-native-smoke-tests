@@ -19,7 +19,7 @@
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<micrometer.version>1.8.3</micrometer.version>
 		<native.maven.plugin.version>0.9.10</native.maven.plugin.version>
-		<neo4j-java-driver.version>4.4.5</neo4j-java-driver.version>
+		<neo4j-java-driver.version>6.0-SNAPSHOT</neo4j-java-driver.version>
 		<picocli.version>4.6.3</picocli.version>
 		<docker.image.tag>4.4</docker.image.tag>
 	</properties>

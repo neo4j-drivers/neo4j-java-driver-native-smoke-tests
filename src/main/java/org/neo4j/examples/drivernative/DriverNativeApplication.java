@@ -75,7 +75,7 @@ public class DriverNativeApplication implements Callable<Integer> {
 					.forEach(System.out::println);
 			}
 
-			AsyncSession session = driver.asyncSession();
+			AsyncSession session = driver.session(AsyncSession.class);
 
 			List<String> movieTitles = session.runAsync("MATCH (m:Movie) RETURN m.title AS title")
 				.thenCompose(cursor -> cursor.listAsync(record -> record.get("title").asString()))
