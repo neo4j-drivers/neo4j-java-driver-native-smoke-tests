@@ -64,8 +64,8 @@ Usage: printmovies [-p[=<password>]]... [-a=<address>] [-l=<loggingLevel>]
   -a, --address=<address>   The address this migration should connect to. The
                               driver supports bolt, bolt+routing or neo4j as
                               schemes.
-  -l=<loggingLevel>         Logging level
-  -m=<metricsAdapter>
+  -l=<loggingLevel>         Logging level.
+  -m                        Enables Micrometer Metrics.
   -p, --password[=<password>]
                             The password of the user connecting to the database.
   -u, --username=<user>     The login of the user connecting to the database. 
