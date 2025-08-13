@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,28 +49,28 @@ public class execute_native_binary {
 			});
 		}
 
+        var command = new ArrayList<>(List.of(executable,
+                "--address", neo4j.getBoltUrl(),
+                "--password", neo4j.getAdminPassword()));
 		List<String> expectedOutput;
 		if (Boolean.parseBoolean(a[2])) {
+            command.add("-m");
 			expectedOutput = List.of(
-				"Trying to use metrics adapter MICROMETER",
+				"Micrometer enabled",
 				"Highlander",
 				"Fetched 1 async (and blocked doing so)",
 				"Metrics had been on"
 			);
 		} else {
 			expectedOutput = List.of(
-				"Trying to use metrics adapter MICROMETER",
+				"Micrometer disabled",
 				"Highlander",
 				"Fetched 1 async (and blocked doing so)",
 				"Metrics had been off"
 			);
 		}
 
-		var p = new ProcessBuilder(executable,
-			"--address", neo4j.getBoltUrl(),
-			"--password", neo4j.getAdminPassword(),
-			"-m", "MICROMETER"
-		).redirectErrorStream(true).start();
+		var p = new ProcessBuilder(command).redirectErrorStream(true).start();
 
 		p.onExit().thenAccept(done -> {
 			try (var in = new BufferedReader(new InputStreamReader(done.getInputStream()))) {

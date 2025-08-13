@@ -1,5 +1,14 @@
 package org.neo4j.examples.drivernative;
 
+import io.micrometer.core.instrument.Measurement;
+import io.micrometer.core.instrument.Meter;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.observation.DefaultMeterObservationHandler;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
+import io.micrometer.observation.ObservationRegistry;
+import org.neo4j.driver.observation.ObservationProvider;
+import org.neo4j.driver.observation.micrometer.ConnectionPoolMetricsHandler;
+import org.neo4j.driver.observation.micrometer.MicrometerObservationProvider;
 import picocli.CommandLine;
 import picocli.CommandLine.Option;
 
@@ -14,7 +23,6 @@ import org.neo4j.driver.Config;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.GraphDatabase;
 import org.neo4j.driver.Logging;
-import org.neo4j.driver.MetricsAdapter;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.async.AsyncSession;
 
@@ -46,23 +54,39 @@ public class DriverNativeApplication implements Callable<Integer> {
 	private char[] password;
 
 	@Option(
-		names = { "-l" }, description = "Logging level"
+		names = { "-l" }, description = "Logging level."
 	)
 	private String loggingLevel;
 
-	@Option(
-		names = { "-m" }, defaultValue = "DEV_NULL"
-	)
-	private MetricsAdapter metricsAdapter;
+	@Option(names = { "-m" }, description = "Enables Micrometer Metrics.")
+	private boolean withMicrometer;
 
 	@Override
 	public Integer call() throws Exception {
 
-		System.out.println("Trying to use metrics adapter " + metricsAdapter);
+		System.out.println("Micrometer " + (withMicrometer ?  "enabled" : "disabled"));
 
 		AuthToken auth = AuthTokens.basic(user, new String(password));
 		Config.ConfigBuilder builder = Config.builder();
-		builder.withMetricsAdapter(metricsAdapter);
+        Runnable printMetrics = null;
+        if (withMicrometer) {
+            MeterRegistry meterRegistry = new SimpleMeterRegistry();
+            ObservationRegistry observationRegistry = ObservationRegistry.create();
+            observationRegistry.observationConfig()
+                    .observationHandler(new DefaultMeterObservationHandler(meterRegistry))
+                    .observationHandler(new ConnectionPoolMetricsHandler(meterRegistry));
+            ObservationProvider observationProvider = MicrometerObservationProvider.builder(observationRegistry).build();
+            builder.withObservationProvider(observationProvider);
+            printMetrics = () -> {
+                for (Meter meter : meterRegistry.getMeters()) {
+                    System.out.println("Meter: " + meter.getId());
+
+                    for (Measurement measurement : meter.measure()) {
+                        System.out.printf("  %s = %f%n", measurement.getStatistic(), measurement.getValue());
+                    }
+                }
+            };
+        }
 
 		if (loggingLevel != null) {
 			builder.withLogging(Logging.console(Level.parse(loggingLevel)));
@@ -85,9 +109,9 @@ public class DriverNativeApplication implements Callable<Integer> {
 				.get();
 
 			System.out.println("Fetched " + movieTitles.size() + " async (and blocked doing so)");
-			System.out.println("Metrics had been " + (driver.isMetricsEnabled() ? "on" : "off"));
-			if (driver.isMetricsEnabled()) {
-				driver.metrics().connectionPoolMetrics().forEach(System.out::println);
+			System.out.println("Metrics had been " + (withMicrometer ? "on" : "off"));
+			if (printMetrics != null) {
+                printMetrics.run();
 			}
 		}
 
